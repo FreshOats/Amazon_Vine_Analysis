@@ -1,5 +1,5 @@
 # Amazon Vine Analysis - Pet Products
-**Utilizing Spark, AWS, PostgreSQL, and Python to analyze the Amazon Vine program by evaluating Pet Product Reviews**
+***Utilizing Spark, AWS, PostgreSQL, and Python to analyze the Amazon Vine program by evaluating Pet Product Reviews***
 #### by Justin R. Papreck
 ---
 
@@ -68,7 +68,7 @@ df.show()
     +-----------+-----------+--------------+----------+--------------+--------------------+----------------+-----------+-------------+-----------+----+-----------------+--------------------+--------------------+-------------------+
    
     
-
+---
 ### Cleaning the Data
 
 The initial cleaning just removed the data includig NA values, which removed 350 entires out of the 2.6 million reviews. At this point the data were separated into 4 different tables, providing tables for customer information, product information, review attributes, and the final for Vine users, only holding the review ID, star rating, whether the review was flagged as helpful, the total votes, whether the user was paid or not, and whether it was a verified purchase. Only the processes for the Vine table are shown below, since this is the table that was used for the Analysis of Bias. 
@@ -77,7 +77,7 @@ The initial cleaning just removed the data includig NA values, which removed 350
 ```python
 vine_df = df.select(["review_id", "star_rating", "helpful_votes", "total_votes", "vine", "verified_purchase"])
 ```
-
+---
 ### Connecting to the AWS RDS instance 
 
 Using the driver and passwords set up with PgAdmin for the PostgreSQL RDMS, the tables were written to the AWS RDS instance for analysis in PgAdmin. 
@@ -305,7 +305,7 @@ calculate_reviews(unpaid)
 ```
 Out of 37,823 reviews, there were 20,605 5-star reviews. The percent of helpful 5-star reviews by unpaid users was 54.48%
 
-
+---
 ### Analysis
 
 The hypothesis that there would be a bias toward higher ratings with the paid Vine users is not supported with these findings. From the paid Vine users, only 38% of the users provided 5-star reviews, 16% less than the 54% of unpaid users giving 5-star reviews. While the hypothesis is rejected regarding the positive bias, there is a substantial difference between the two groups, which definitely warrants further investigation. Since fewer than 50% of the Vine votes were 5-star reviews, it is important to know how the other votes are distributed, and likewise with the unpaid users. Amazon customers often complain that the 5-star reviews and the 1-star reviews are not always reliable because customers that have any tiny problem will give a 1-star rating, and other users have found certain vendors give incentives to provide 5-star reviews on their products despite the product's performance. Because these reviews are analyzing the same population of products, the distributions should ideally be similar, though it is unlikely given the 16% difference in 5-star ratings alone. 
@@ -331,7 +331,7 @@ Out of 1,364 reviews, there were 120 5-star reviews. The percent of unhelpful 5-
 
 From these outcomes, it is shown that only 2 out of the 170 paid users were considered unhelpful - 1.2% of paid reviews. Meanwhile, 1364 of the 37,823 reviews were considered unhelpful from the unpaid users. While the percentage is higher, at 3.6%, it's still a very low percentage of unhelpful reviews. The big difference is that neither of the two paid reviews were 5-star reviews, yet 8.8% of the unpaid unhelpful reviews were 5-star reviews. Regardless, with only 2 unhelpful reviews from the Vine users, these data will change drastically with even one unhelpful view in the 5-star category, potentially raising it from 0% to 33%, and without a larger sample size, these aren't particularly useful statistics. 
 
-
+---
 ### Distribution of Star Ratings
 
 After the initial analysis, noting the difference between the 5-star reviews in the paid and unpaid users, it is worth looking into how each group distributes their star-ratings. 
@@ -399,13 +399,15 @@ plt.legend()
 plt.show()
 ```
 
-    
-![png](Vine_Readme_files/Vine_Readme_16_0.png)
+
+![Vine_Readme_16_0](https://user-images.githubusercontent.com/33167541/189448050-7f82be04-8050-4641-9b86-254803c1df00.png)
+
+
     
 
 The graph clearly shows that there is a tiered rating in place with the Vine reviewers, with the highest group in the 5-star category, and each subsequent star-rating representing a smaller group down to the 3.5% in the 1-star category. On the other hand, the unpaid users have very high proportions in the 5 and 1 star groups, with very few reviewers giving anything between. 
 
-
+---
 ### Comparing the Distributions
 
 Qualitatively, the paid and unpaid ratings look like very distributions. In order to statistically show that the groups are indeed different, a 2-sample Kolmogorov-Smirnov (KS) Test was performed. The KS Test shows the equality of continuous or discontinuous 1-D probability distributions to compare (in this case) 2 samples, answering whether the 2 samples could have come from the same data distribution. In this case, the data do come from the same distribution, though the samples look very different. The null hypothesis of the KS test is that both groups were sampled from populations with identical distributions. 
@@ -419,7 +421,7 @@ ks_2samp(paid_dist, unpaid_dist)
 
 In interpreting the KS test results, a low KS-statistic or a high p-value indicate that the Null hypothesis cannot be rejected. As both of these conditions are met, we it confirms that despite the different appearances of the distributions from the graph, the data (as expected) do come from the same population of data.
 
-
+---
 ### Unhelpful 1-Star Ratings
 
 The final analysis was to determine the percent of 1-star reviews from the paid and unpaid users. 
@@ -449,12 +451,12 @@ plt.legend()
 plt.show()
 ```
 
-    
-![png](Vine_Readme_files/Vine_Readme_19_0.png)
-    
+![Vine_Readme_19_0](https://user-images.githubusercontent.com/33167541/189448156-941a58f9-d237-4779-bfdf-b5b8cb226e86.png)
+
 
 Considering what was presented earlier in the paid Vine reviewer population, the only 2 reviews that were considered unhelpful by the Vine reviewers were these two 1-star reviews. This is not to discount all of the 1-star reviews by the paid reviewers, as there were 6 reviews that were considered helpful with this rating. With the unpaid users, 74% of unhelpful reviews were 1-star reviews. The distribution for these is below. While these are not represented in the first distribution, it shows that there is, if anything, a negative bias in the paid reviewers to provide 1-star reviews in general, and provide more helpful reviews than the high percentages of seemingly unfounded 1-star reviews given by the unpaid group.
 
+---
 ## Summary
 
 The ultimate question is "What does this mean for our stakeholder?" 
