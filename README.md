@@ -399,8 +399,9 @@ plt.legend()
 plt.show()
 ```
 
-    
-![Vine_Readme_16_0](https://user-images.githubusercontent.com/33167541/189447636-d9450d9a-ec67-4919-8a34-55d41c821951.png)
+
+![Vine_Readme_16_0](https://user-images.githubusercontent.com/33167541/189448050-7f82be04-8050-4641-9b86-254803c1df00.png)
+
 
     
 
@@ -450,8 +451,8 @@ plt.legend()
 plt.show()
 ```
 
-![Vine_Readme_19_0](https://user-images.githubusercontent.com/33167541/189447596-8497df7e-5dc9-42fa-819c-d3aed17fedeb.png)
-    
+![Vine_Readme_19_0](https://user-images.githubusercontent.com/33167541/189448156-941a58f9-d237-4779-bfdf-b5b8cb226e86.png)
+
 
 Considering what was presented earlier in the paid Vine reviewer population, the only 2 reviews that were considered unhelpful by the Vine reviewers were these two 1-star reviews. This is not to discount all of the 1-star reviews by the paid reviewers, as there were 6 reviews that were considered helpful with this rating. With the unpaid users, 74% of unhelpful reviews were 1-star reviews. The distribution for these is below. While these are not represented in the first distribution, it shows that there is, if anything, a negative bias in the paid reviewers to provide 1-star reviews in general, and provide more helpful reviews than the high percentages of seemingly unfounded 1-star reviews given by the unpaid group.
 
