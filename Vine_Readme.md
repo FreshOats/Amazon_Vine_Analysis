@@ -13,9 +13,6 @@ from scipy.stats import ks_2samp
 ## Read file
 filename = "C:/Users/justi/OneDrive/Desktop/Analytics/Amazon_Vine_Analysis/vine_table.csv"
 vine_table = pd.read_csv(filename)
-
-
-
 ```
 
 
@@ -194,27 +191,8 @@ vine_df.head()
 
 
 ```python
-vine_df.dtypes
-```
-
-
-
-
-    review_id            object
-    star_rating           int64
-    helpful_votes         int64
-    total_votes           int64
-    vine                 object
-    verified_purchase    object
-    dtype: object
-
-
-
-
-```python
 # Second filter to find products where helpful votes are at least 50% of total
 helpful = vine_df[(vine_df.helpful_votes/vine_df.total_votes) >= 0.5]
-
 ```
 
 
@@ -222,7 +200,6 @@ helpful = vine_df[(vine_df.helpful_votes/vine_df.total_votes) >= 0.5]
 # Filter the data into 2 dfs with paid vine users and unpaid users
 paid = helpful[helpful.vine == 'Y']
 unpaid = helpful[helpful.vine == 'N']
-
 ```
 
 
@@ -240,14 +217,12 @@ def calculate_reviews(df, rating=5, helpful='helpful'):
      
 
     return (f'Out of {total:,} reviews, there were {fives:,} {rating}-star reviews. The percent of {helpful} 5-star reviews by {payment} users was {percent:.2f}%')
-
 ```
 
 
 ```python
 # Display the vine users for pet products
 calculate_reviews(paid)
-
 ```
 
 
@@ -279,7 +254,6 @@ u_paid = unhelpful[unhelpful.vine == 'Y']
 u_unpaid = unhelpful[unhelpful.vine == 'N']
 (calculate_reviews(u_paid, helpful='unhelpful'),
  calculate_reviews(u_unpaid, helpful='unhelpful'))
-
 ```
 
 
@@ -323,7 +297,6 @@ u_unpaid = unhelpful[unhelpful.vine == 'N']
 ```python
 # Helpful 2-star
 (calculate_reviews(paid, 2), calculate_reviews(unpaid, 2))
-
 ```
 
 
@@ -386,7 +359,7 @@ plt.show()
 
 
     
-![png](Vine_Review_Analysis_files/Vine_Review_Analysis_17_0.png)
+![png](Vine_Readme_files/Vine_Readme_16_0.png)
     
 
 
@@ -395,12 +368,58 @@ plt.show()
 # Performing a Kolmogorov-Smirnov Test
 # The KS Test shows the equality of continuous or discontinuous 1-D probability distributions to compare (in this case) 2 samples, answering whether 2 samples could have come from the same data distribution. 
 ks_2samp(paid_dist, unpaid_dist)
-
 ```
 
 
 
 
     KstestResult(statistic=0.2, pvalue=1.0)
+
+
+
+
+```python
+paid_dist = distribute_reviews(u_paid)
+unpaid_dist = distribute_reviews(u_unpaid)
+x_labels = ["5", "4", "3", "2", "1"]
+
+```
+
+
+```python
+plt.subplots(figsize=(10, 6))
+
+x_axis = np.arange(len(x_labels))
+plt.bar(x_axis + 1, unpaid_dist, 0.4, label="Unpaid")
+
+plt.title("Star Distribution of Paid Vine Users")
+plt.xlabel("Rating")
+plt.xticks([1, 2, 3, 4, 5], x_labels)
+plt.ylabel("Percent of Total")
+plt.legend()
+plt.show()
+
+```
+
+
+    
+![png](Vine_Readme_files/Vine_Readme_19_0.png)
+    
+
+
+
+```python
+# Unhelpful 1-star reviews
+# Helpful 1-star
+(calculate_reviews(u_paid, 1, helpful="unhelpful"),
+ calculate_reviews(u_unpaid, 1, helpful="unhelpful"))
+
+```
+
+
+
+
+    ('Out of 2 reviews, there were 2 1-star reviews. The percent of unhelpful 5-star reviews by paid vine users was 100.00%',
+     'Out of 1,364 reviews, there were 1,010 1-star reviews. The percent of unhelpful 5-star reviews by unpaid users was 74.05%')
 
 
