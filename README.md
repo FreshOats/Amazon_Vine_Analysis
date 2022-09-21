@@ -1,4 +1,4 @@
-# Analyzing Bias with Amazon Vine Reviews - Products
+# Analyzing Bias in Amazon Vine Reviews
 ***Utilizing Spark, AWS, PostgreSQL, and Python to analyze the Amazon Vine program by evaluating Pet Product Reviews***
 #### by Justin R. Papreck
 ---
