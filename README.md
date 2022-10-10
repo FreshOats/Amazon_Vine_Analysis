@@ -1,4 +1,4 @@
-# Amazon Vine Analysis - Pet Products
+# Analyzing Bias in Amazon Vine Reviews
 ***Utilizing Spark, AWS, PostgreSQL, and Python to analyze the Amazon Vine program by evaluating Pet Product Reviews***
 #### by Justin R. Papreck
 ---
@@ -417,9 +417,9 @@ Qualitatively, the paid and unpaid ratings look like very distributions. In orde
 from scipy.stats import ks_2samp
 ks_2samp(paid_dist, unpaid_dist)
 ```
- KstestResult(statistic=0.2, pvalue=1.0)
+ KstestResult(statistic=0.8, pvalue=0.079)
 
-In interpreting the KS test results, a low KS-statistic or a high p-value indicate that the Null hypothesis cannot be rejected. As both of these conditions are met, we it confirms that despite the different appearances of the distributions from the graph, the data (as expected) do come from the same population of data.
+In interpreting the KS test results, a high KS-statistic indicates that the Null hypothesis can be rejected if the p-value is low enough. however, the p-value remains above the 0.05 threshold, and, thus, it confirms that despite the different appearances of the distributions from the graph, the data do come from the same population of data and cannot be considered significantly different.
 
 ---
 ### Unhelpful 1-Star Ratings
